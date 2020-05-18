@@ -1,0 +1,31 @@
+name: Rancher App Deploy
+description: Make it easy todo a app deploy to rancher with a simple values.yaml
+author: elseu
+branding:
+  icon: 'terminal'
+  color: 'blue'
+inputs:
+  token:
+    description: Rancher Token for logging in.
+    required: true
+  context:
+    description: Context of the project to access. (AKA Project ID)
+    required: true
+  url:
+    description: URL of the Rancher instance.
+    required: true
+  chart:
+    description: Define chart name based on Rancher chart name.
+    required: true
+  release_name:
+    description: Release name, get automaticly prefixed with a envrioment name, based on branch name or if its a versoin tag it gets the production envrioment name.
+    required: true
+  values_file:
+    description: Location of the values file
+    required: true
+  chart_version:
+    description: Define chart verion, if not defined it uses the latest chart verion.
+    required: false
+runs:
+  using: docker
+  image: Dockerfile
