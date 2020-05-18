@@ -20,7 +20,7 @@ inputs:
   release_name:
     description: Release name, get automaticly prefixed with a envrioment name, based on branch name or if its a versoin tag it gets the production envrioment name.
     required: true
-  values_file:
+  namespace:
     description: Location of the values file
     required: true
   chart_version:

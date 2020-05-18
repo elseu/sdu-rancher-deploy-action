@@ -10,15 +10,17 @@ You need to have in the root of your project having a directory called `deploy` 
 
 #### Action options
 
-| Prop          | description                                                                                                                                         |
-| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| token         | Rancher Token for logging in.                                                                                                                       |
-| context       | Context of the project to access. (AKA Cluster ID : Project ID)                                                                                     |
-| url           | URL of the Rancher instance.                                                                                                                        |
-| chart         | Define chart name based on Rancher chart name.                                                                                                      |
-| release_name  | Release name, get automaticly prefixed with a envrioment name, based on branch name or if its a versoin tag it gets the production envrioment name. |
-| values_file   | Location of the values file                                                                                                                         |
-| chart_version | Define chart verion, if not defined it uses the latest chart verion.                                                                                |
+| Prop           | description                                                                                                                                         |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| token\*        | Rancher Token for logging in.                                                                                                                       |
+| context\*      | Context of the project to access. (AKA Cluster ID : Project ID)                                                                                     |
+| url\*          | URL of the Rancher instance.                                                                                                                        |
+| chart\*        | Define chart name based on Rancher chart name.                                                                                                      |
+| release_name\* | Release name, get automaticly prefixed with a envrioment name, based on branch name or if its a versoin tag it gets the production envrioment name. |
+| namespace\*    | Namespace where it will be published in                                                                                                             |
+| chart_version  | Define chart verion, if not defined it uses the latest chart verion.                                                                                |
+
+- = required
 
 ```yaml
 jobs:
@@ -32,7 +34,6 @@ jobs:
           url: RANCHER_URL
           chart: RANCHER_CHART
           release_name: RELEASE_NAME
-          values_file: VALUES
           chart_version: CHART_VERSION
         env:
           MASTER_DATABASE_URL: 'psql://login:test@localhost'
@@ -46,3 +47,5 @@ jobs:
 You can add envrioment variables that you want to pass to the deploy script. First it will rename the envrioment variable based on the branch name. So for example when you have as branch name `MASTER` and you have a envrioment variable defined with `MASTER_DATABASE_URL` that becomes `DATABASE_URL` so that you can define variables based on the branch.
 
 Those variables will be used to fill up your values.yaml file where you can define those variables with `${DATABASE_URL}` and get replaced with the value that you have given this envrioment variable.
+
+Its also possible to override the with variables by passing a env variable like `MASTER_URL` that overrides with `url` parameter when it is the master branch that is build.

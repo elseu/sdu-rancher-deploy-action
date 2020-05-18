@@ -2,6 +2,9 @@
 export RELEASE_NAME="${INPUT_RELEASE_NAME}-${ENVIRONMENT}"
 export CHART_VERSION=$INPUT_CHART_VERSION
 export CHART=$INPUT_CHART
+export NAMESPACE=$INPUT_NAMESPACE
+BASEDIR=$(dirname "$0")
+VALUES_FILE="${BASEDIR}/.generated/values.yaml"
 
 global_rematch() {
   local s=$1 regex=$2
@@ -27,8 +30,6 @@ fi
 export BRANCH_LOWER=$BRANCH
 export BRANCH=$(echo $BRANCH | tr '[:lower:]' '[:upper:]')
 
-BASEDIR=$(dirname "$0")
-
 echo "uses $BRANCH"
 if [ ! -z $BRANCH ]; then
   echo 'branch:' $BRANCH
@@ -43,14 +44,14 @@ if [ ! -z $BRANCH ]; then
   done
 fi
 
-# Global settings.
-VALUES_FILE="${BASEDIR}/.generated/values.yaml"
-
 mkdir -p $BASEDIR/.generated
 
 for f in $BASEDIR/*.yaml; do
   echo $f
   envsubst <$f >"${BASEDIR}/.generated/$(basename $f)"
+  if [[ $DEBUG ]]; then
+    cat "./deploy/.generated/$(basename $f)";
+  fi
 done
 
 rancher login ${INPUT_URL} --token ${INPUT_TOKEN} --context ${INPUT_CONTEXT}
