@@ -45,4 +45,4 @@ jobs:
 
 You can add envrioment variables that you want to pass to the deploy script. First it will rename the envrioment variable based on the branch name. So for example when you have as branch name `MASTER` and you have a envrioment variable defined with `MASTER_DATABASE_URL` that becomes `DATABASE_URL` so that you can define variables based on the branch.
 
-Those variables will be used to fill up your values.yaml file where you can define those variables with \${DATABASE_URL} and get replaced with the value that you have given this envrioment variable.
+Those variables will be used to fill up your values.yaml file where you can define those variables with `${DATABASE_URL}` and get replaced with the value that you have given this envrioment variable.
