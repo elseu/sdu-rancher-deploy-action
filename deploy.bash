@@ -7,7 +7,7 @@ export REF=$INPUT_REF
 export BRANCH=$INPUT_BRANCH
 export IMAGE=$INPUT_IMAGE
 export DOCKER_IMAGE=$INPUT_IMAGE
-BASEDIR=$(dirname "$0")
+BASEDIR="${GITHUB_WORKSPACE}/deploy"
 VALUES_FILE="${BASEDIR}/.generated/values.yaml"
 
 echo "uses $BRANCH"
