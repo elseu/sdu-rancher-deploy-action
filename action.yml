@@ -2,8 +2,8 @@ name: Rancher App Deploy
 description: Make it easy todo a app deploy to rancher with a simple values.yaml
 author: elseu
 branding:
-  icon: 'terminal'
-  color: 'blue'
+  icon: "terminal"
+  color: "#EE3324"
 inputs:
   token:
     description: Rancher Token for logging in.
@@ -16,6 +16,15 @@ inputs:
     required: true
   chart:
     description: Define chart name based on Rancher chart name.
+    required: true
+  branch:
+    description: Branch name that is used to override envrioment variables
+    required: true
+  tag:
+    description: Docker tag
+    required: true
+  image:
+    description: Docker image
     required: true
   release_name:
     description: Release name, get automaticly prefixed with a envrioment name, based on branch name or if its a versoin tag it gets the production envrioment name.

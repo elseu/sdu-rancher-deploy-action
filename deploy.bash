@@ -3,32 +3,12 @@ export RELEASE_NAME="${INPUT_RELEASE_NAME}-${ENVIRONMENT}"
 export CHART_VERSION=$INPUT_CHART_VERSION
 export CHART=$INPUT_CHART
 export NAMESPACE=$INPUT_NAMESPACE
+export REF=$INPUT_REF
+export BRANCH=$INPUT_BRANCH
+export IMAGE=$INPUT_IMAGE
+export DOCKER_IMAGE=$INPUT_IMAGE
 BASEDIR=$(dirname "$0")
 VALUES_FILE="${BASEDIR}/.generated/values.yaml"
-
-global_rematch() {
-  local s=$1 regex=$2
-  while [[ $s =~ $regex ]]; do
-    echo "${BASH_REMATCH[1]}"
-    s=${s#*"${BASH_REMATCH[1]}"}
-  done
-}
-
-TAG=$(global_rematch $BRANCH "refs\/tags\/(.*)")
-BRANCH=$(global_rematch $BRANCH "refs\/heads\/(.*)")
-
-# TAG
-BRANCH=${BRANCH//[\/\\.]/_}
-if [ -z "$TAG" ]; then
-  export TAG=$BRANCH
-  export ENVIRONMENT=$TAG
-else
-  export TAG=$TAG
-  export ENVIRONMENT='production'
-fi
-
-export BRANCH_LOWER=$BRANCH
-export BRANCH=$(echo $BRANCH | tr '[:lower:]' '[:upper:]')
 
 echo "uses $BRANCH"
 if [ ! -z $BRANCH ]; then
@@ -66,7 +46,7 @@ fi
 if [[ $APP_ID ]]; then
   echo "Upgrade app $APP_ID"
   if [[ $ONLY_UPDATE_IMAGE ]]; then
-    rancher app upgrade --set image.repository=${DOCKER_IMAGE} --set image.tag=${TAG} ${APP_ID} ${CHART_VERSION}
+    rancher app upgrade --set image.repository=${IMAGE} --set image.tag=${TAG} ${APP_ID} ${CHART_VERSION}
   else
     rancher app upgrade --values ${VALUES_FILE} ${APP_ID} ${CHART_VERSION}
   fi

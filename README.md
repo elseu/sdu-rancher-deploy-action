@@ -33,13 +33,15 @@ jobs:
           context: RANCHER_CONTEXT
           url: RANCHER_URL
           chart: RANCHER_CHART
+          ref: ${{ github.ref }}
           release_name: RELEASE_NAME
           chart_version: CHART_VERSION
+          image: DOCKER_IMAGE
         env:
-          MASTER_DATABASE_URL: 'psql://login:test@localhost'
-          PRODUCTION_DATABASE_URL: 'psql://login:test@localhost'
-          RELEASE_DATABASE_URL: 'psql://login:test@localhost'
-          DEVELOP_DATABASE_URL: 'psql://login:test@localhost'
+          MASTER_DATABASE_URL: "psql://login:test@localhost"
+          PRODUCTION_DATABASE_URL: "psql://login:test@localhost"
+          RELEASE_DATABASE_URL: "psql://login:test@localhost"
+          DEVELOP_DATABASE_URL: "psql://login:test@localhost"
 ```
 
 #### Envrioment variables
@@ -49,3 +51,5 @@ You can add envrioment variables that you want to pass to the deploy script. Fir
 Those variables will be used to fill up your values.yaml file where you can define those variables with `${DATABASE_URL}` and get replaced with the value that you have given this envrioment variable.
 
 Its also possible to override the with variables by passing a env variable like `MASTER_URL` that overrides with `url` parameter when it is the master branch that is build.
+
+`TAG` there is also a TAG variable availiable by default it looks at the current branch / git tag. If it is a git tag the tag will be pushed in the variable otherwise it will be the branch name.
