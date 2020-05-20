@@ -16,11 +16,15 @@ You need to have in the root of your project having a directory called `deploy` 
 | context\*      | Context of the project to access. (AKA Cluster ID : Project ID)                                                                                     |
 | url\*          | URL of the Rancher instance.                                                                                                                        |
 | chart\*        | Define chart name based on Rancher chart name.                                                                                                      |
+| image\*        | Image name without the tag                                                                                                                          |
+| tag\*          | Image tag that should be used                                                                                                                       |
 | release_name\* | Release name, get automaticly prefixed with a envrioment name, based on branch name or if its a versoin tag it gets the production envrioment name. |
 | namespace\*    | Namespace where it will be published in                                                                                                             |
 | chart_version  | Define chart verion, if not defined it uses the latest chart verion.                                                                                |
 
 - = required
+
+to extract the branch/tag name you can use the `elseu/sdu-define-tag-branch-action` action.
 
 ```yaml
 jobs:
@@ -33,7 +37,6 @@ jobs:
           context: RANCHER_CONTEXT
           url: RANCHER_URL
           chart: RANCHER_CHART
-          ref: ${{ github.ref }}
           release_name: RELEASE_NAME
           chart_version: CHART_VERSION
           image: DOCKER_IMAGE
