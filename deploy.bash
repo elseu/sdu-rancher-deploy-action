@@ -7,6 +7,8 @@ export REF=$INPUT_REF
 export BRANCH=$INPUT_BRANCH
 export IMAGE=$INPUT_IMAGE
 export DOCKER_IMAGE=$INPUT_IMAGE
+export TAG=${INPUT_TAG}
+export DOCKER_TAG=${INPUT_TAG}
 BASEDIR="${GITHUB_WORKSPACE}/deploy"
 VALUES_FILE="${BASEDIR}/.generated/values.yaml"
 
