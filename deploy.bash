@@ -8,7 +8,12 @@ export BRANCH=$INPUT_BRANCH
 export IMAGE=$INPUT_IMAGE
 export DOCKER_IMAGE=$INPUT_IMAGE
 BASEDIR="${GITHUB_WORKSPACE}/deploy"
-VALUES_FILE="${BASEDIR}/.generated/values.yaml"
+VALUES_FIL
+
+if [[ $DEBUG ]]; then
+  printenv
+  echo "BASEDIR ${BASEDIR}"
+fi
 
 echo "uses $BRANCH"
 if [ ! -z $BRANCH ]; then
