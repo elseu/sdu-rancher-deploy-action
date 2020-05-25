@@ -1,5 +1,5 @@
 #!/bin/bash
-export RELEASE_NAME="${INPUT_RELEASE_NAME}-${ENVIRONMENT}"
+export RELEASE_NAME=$INPUT_RELEASE_NAME
 export CHART_VERSION=$INPUT_CHART_VERSION
 export CHART=$INPUT_CHART
 export NAMESPACE=$INPUT_NAMESPACE
@@ -44,6 +44,7 @@ done
 
 rancher login ${INPUT_URL} --token ${INPUT_TOKEN} --context ${INPUT_CONTEXT}
 
+export RELEASE_NAME="${RELEASE_NAME}-${ENVIRONMENT}"
 APP_ID=$(rancher apps | grep -o '.*:'$RELEASE_NAME)
 
 if [ -z "$CHART_VERSION" ]; then
