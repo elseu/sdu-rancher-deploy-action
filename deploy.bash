@@ -8,6 +8,9 @@ export BRANCH=$INPUT_BRANCH
 export IMAGE=$INPUT_IMAGE
 export DOCKER_IMAGE=$INPUT_IMAGE
 export TAG=${INPUT_TAG}
+export CONTEXT=${INPUT_CONTEXT}
+export TOKEN=${INPUT_TOKEN}
+export URL=${URL_TOKEN}
 export DOCKER_TAG=${INPUT_TAG}
 BASEDIR="${GITHUB_WORKSPACE}/deploy"
 VALUES_FILE="${BASEDIR}/.generated/values.yaml"
@@ -42,7 +45,7 @@ for f in $BASEDIR/*.yaml; do
   fi
 done
 
-rancher login ${INPUT_URL} --token ${INPUT_TOKEN} --context ${INPUT_CONTEXT}
+rancher login ${URL} --token ${TOKEN} --context ${CONTEXT}
 
 APP_ID=$(rancher apps | grep -o '.*:'$RELEASE_NAME)
 
