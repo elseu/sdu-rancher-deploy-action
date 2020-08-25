@@ -18,9 +18,10 @@ You need to have in the root of your project having a directory called `deploy` 
 | chart\*        | Define chart name based on Rancher chart name.                                                                                                      |
 | image\*        | Image name without the tag                                                                                                                          |
 | tag\*          | Image tag that should be used                                                                                                                       |
-| release_name\* | Release name, get automaticly prefixed with a envrioment name, based on branch name or if its a versoin tag it gets the production envrioment name. |
+| release_name\* | Release name, get automatically prefixed with a environment name, based on branch name or if its a version tag it gets the production envrioment name. |
 | namespace\*    | Namespace where it will be published in                                                                                                             |
-| chart_version  | Define chart verion, if not defined it uses the latest chart verion.                                                                                |
+| chart_version  | Define chart version, if not defined it uses the latest chart version.
+| rollout_restart_all_deployments | If you have a latest tag or dev tag that is deployment and you want all pods in the namespace be redeployed enable this flag. With 1 (enabled) / 0 (disable). |
 
 - = required
 

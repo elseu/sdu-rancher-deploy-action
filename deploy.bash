@@ -65,3 +65,13 @@ else
   echo "Install app"
   rancher app install --no-prompt --namespace ${NAMESPACE} --values ${VALUES_FILE} --version ${CHART_VERSION} ${CHART} ${RELEASE_NAME}
 fi
+
+if [ $INPUT_ROLLOUT_RESTART_ALL_DEPLOYMENTS == 1 ]; then
+  declare -a DEPLOYMENTS
+  DEPLOYMENTS=($(rancher kubectl get deployments --namespace=$NAMESPACE -o name))
+
+  for (( i=0; i<${#DEPLOYMENTS[@]}; i++ )) do
+    echo "Rollout restart: ${DEPLOYMENTS[$i]}"
+    rancher kubectl rollout restart ${DEPLOYMENTS[$i]} --namespace=$NAMESPACE
+  done;
+fi

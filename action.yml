@@ -35,6 +35,9 @@ inputs:
   chart_version:
     description: Define chart verion, if not defined it uses the latest chart verion.
     required: false
+  rollout_restart_all_deployments:
+    description: Reroll restart all deployments
+    required: false
 runs:
   using: docker
   image: Dockerfile
