@@ -12,6 +12,7 @@ export CONTEXT=$INPUT_CONTEXT
 export TOKEN=$INPUT_TOKEN
 export URL=$INPUT_URL
 export DOCKER_TAG=$INPUT_TAG
+export $ROLLOUT_RESTART_ALL_DEPLOYMENTS=$INPUT_ROLLOUT_RESTART_ALL_DEPLOYMENTS
 BASEDIR="${GITHUB_WORKSPACE}/deploy"
 VALUES_FILE="${BASEDIR}/.generated/values.yaml"
 
@@ -66,7 +67,7 @@ else
   rancher app install --no-prompt --namespace ${NAMESPACE} --values ${VALUES_FILE} --version ${CHART_VERSION} ${CHART} ${RELEASE_NAME}
 fi
 
-if [ $INPUT_ROLLOUT_RESTART_ALL_DEPLOYMENTS == 1 ]; then
+if [ $ROLLOUT_RESTART_ALL_DEPLOYMENTS == 1 ]; then
   declare -a DEPLOYMENTS
   DEPLOYMENTS=($(rancher kubectl get deployments --namespace=$NAMESPACE -o name))
 
