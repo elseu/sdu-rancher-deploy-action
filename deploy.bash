@@ -1,6 +1,6 @@
 #!/bin/bash
-export RELEASE_NAME="${INPUT_RELEASE_NAME}-${ENVIRONMENT}"
 export CHART_VERSION=$INPUT_CHART_VERSION
+export RELEASE_NAME=$INPUT_RELEASE_NAME
 export CHART=$INPUT_CHART
 export NAMESPACE=$INPUT_NAMESPACE
 export REF=$INPUT_REF
@@ -36,6 +36,10 @@ if [ ! -z $BRANCH ]; then
   done
 fi
 
+if [ ! -z $ENVIRONMENT ]; then
+  export RELEASE_NAME="${RELEASE_NAME}-${ENVIRONMENT}"
+fi
+
 mkdir -p $BASEDIR/.generated
 
 for f in $BASEDIR/*.yaml; do
@@ -67,12 +71,14 @@ else
   rancher app install --no-prompt --namespace ${NAMESPACE} --values ${VALUES_FILE} --version ${CHART_VERSION} ${CHART} ${RELEASE_NAME}
 fi
 
-if [ $ROLLOUT_RESTART_ALL_DEPLOYMENTS == 1 ]; then
-  declare -a DEPLOYMENTS
-  DEPLOYMENTS=($(rancher kubectl get deployments --namespace=$NAMESPACE -o name))
+if [ ! -z $ROLLOUT_RESTART_ALL_DEPLOYMENTS ]; then
+  if [ $ROLLOUT_RESTART_ALL_DEPLOYMENTS == 1 ]; then
+    declare -a DEPLOYMENTS
+    DEPLOYMENTS=($(rancher kubectl get deployments --namespace=$NAMESPACE -o name))
 
-  for (( i=0; i<${#DEPLOYMENTS[@]}; i++ )) do
-    echo "Rollout restart: ${DEPLOYMENTS[$i]}"
-    rancher kubectl rollout restart ${DEPLOYMENTS[$i]} --namespace=$NAMESPACE
-  done;
+    for (( i=0; i<${#DEPLOYMENTS[@]}; i++ )) do
+      echo "Rollout restart: ${DEPLOYMENTS[$i]}"
+      rancher kubectl rollout restart ${DEPLOYMENTS[$i]} --namespace=$NAMESPACE
+    done;
+  fi
 fi
